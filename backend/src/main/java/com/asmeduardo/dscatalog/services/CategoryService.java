@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.asmeduardo.dscatalog.dtos.CategoryDTO;
 import com.asmeduardo.dscatalog.repositories.CategoryRepository;
 
+import com.asmeduardo.dscatalog.services.exceptions.ResourceNotFoundException;
+
 @Service
 public class CategoryService {
 
@@ -22,6 +24,7 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
-        return new CategoryDTO(categoryRepository.findById(id).get());
+        return new CategoryDTO(
+                categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not found")));
     }
 }
