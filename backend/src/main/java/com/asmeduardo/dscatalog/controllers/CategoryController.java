@@ -1,9 +1,10 @@
 package com.asmeduardo.dscatalog.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> findAll() {
-        return ResponseEntity.ok(categoryService.findAll());
+    public ResponseEntity<Page<CategoryDTO>> findAllPaged(Pageable pageable) {
+        return ResponseEntity.ok(categoryService.findAllPaged(pageable));
     }
 
     @GetMapping(value = "/{id}")
