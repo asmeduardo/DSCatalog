@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +22,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     @Column(columnDefinition = "TEXT")
     private String description;
     private Double price;
@@ -87,13 +87,20 @@ public class Product {
         this.imgUrl = imgUrl;
     }
 
-    @PrePersist
-    private void prePersist() {
-        date = Instant.now();
-    }
-
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public void setDate(Instant data) {
+        this.date = data;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     public void addCategory(Category category) {
