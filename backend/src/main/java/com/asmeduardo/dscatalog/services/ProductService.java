@@ -45,8 +45,9 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product product = new Product();
-        product.setName(dto.getName());
-        return new ProductDTO(productRepository.save(product));
+        copyDtoToEntity(dto, product);
+        product = productRepository.save(product);
+        return new ProductDTO(product, product.getCategories());
     }
 
     @Transactional
@@ -54,7 +55,8 @@ public class ProductService {
         try {
             Product product = productRepository.getReferenceById(id);
             copyDtoToEntity(dto, product);
-            return new ProductDTO(productRepository.save(product));
+            product = productRepository.save(product);
+            return new ProductDTO(product, product.getCategories());
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }

@@ -99,10 +99,6 @@ public class Product {
         this.date = data;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
     public void addCategory(Category category) {
         categories.add(category);
     }
