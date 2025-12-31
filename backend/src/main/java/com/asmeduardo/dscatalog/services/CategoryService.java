@@ -37,7 +37,7 @@ public class CategoryService {
     @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         Category category = new Category();
-        category.setName(dto.getName());
+        category.setName(dto.name());
         return new CategoryDTO(categoryRepository.save(category));
     }
 
@@ -45,7 +45,7 @@ public class CategoryService {
     public CategoryDTO update(Long id, CategoryDTO dto) {
         try {
             Category category = categoryRepository.getReferenceById(id);
-            category.setName(dto.getName());
+            category.setName(dto.name());
             return new CategoryDTO(categoryRepository.save(category));
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");

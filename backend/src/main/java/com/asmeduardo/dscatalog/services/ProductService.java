@@ -39,7 +39,7 @@ public class ProductService {
     public ProductDTO findById(Long id) {
         Optional<Product> obj = productRepository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
-        return new ProductDTO(entity, entity.getCategories());
+        return new ProductDTO(entity);
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public class ProductService {
         Product product = new Product();
         copyDtoToEntity(dto, product);
         product = productRepository.save(product);
-        return new ProductDTO(product, product.getCategories());
+        return new ProductDTO(product);
     }
 
     @Transactional
@@ -56,7 +56,7 @@ public class ProductService {
             Product product = productRepository.getReferenceById(id);
             copyDtoToEntity(dto, product);
             product = productRepository.save(product);
-            return new ProductDTO(product, product.getCategories());
+            return new ProductDTO(product);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
@@ -75,15 +75,15 @@ public class ProductService {
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setImgUrl(dto.getImgUrl());
-        entity.setDate(dto.getDate());
+        entity.setName(dto.name());
+        entity.setDescription(dto.description());
+        entity.setPrice(dto.price());
+        entity.setImgUrl(dto.imgUrl());
+        entity.setDate(dto.date());
 
         entity.getCategories().clear();
-        for (CategoryDTO catDto : dto.getCategories()) {
-            Category category = categoryRepository.getReferenceById(catDto.getId());
+        for (CategoryDTO catDto : dto.categories()) {
+            Category category = categoryRepository.getReferenceById(catDto.id());
             entity.addCategory(category);
         }
     }
