@@ -21,26 +21,26 @@ public class ProductRepositoryTests {
     private long countTotalProducts;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setup() throws Exception {
         existingId = 1L;
         nonExistingId = 999L;
         countTotalProducts = 25L;
     }
 
     @Test
-    public void findByIdShouldReturnNonEmptyOptionalWhenIdExists() {
+    void findByIdShouldReturnNonEmptyOptionalWhenIdExists() {
         Optional<Product> result  = productRepository.findById(existingId);
         Assertions.assertTrue(result .isPresent());
     }
 
     @Test
-    public void findByIdShouldReturnEmptyOptionalWhenIdDoesNotExist() {
+    void findByIdShouldReturnEmptyOptionalWhenIdDoesNotExist() {
         Optional<Product> result  = productRepository.findById(nonExistingId);
         Assertions.assertFalse(result .isPresent());
     }
 
     @Test
-    public void saveShouldPersistWithAutoIncrementWhenIdIsNull() {
+    void saveShouldPersistWithAutoIncrementWhenIdIsNull() {
         Product product = ProductFactory.createProduct();
 
         Product result = productRepository.save(product);
@@ -50,7 +50,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void deleteShouldDeleteObjectWhenIdExist() {
+    void deleteShouldDeleteObjectWhenIdExist() {
         productRepository.deleteById(existingId);
 
         Optional<Product> result = productRepository.findById(existingId);
